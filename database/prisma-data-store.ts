@@ -1,6 +1,7 @@
 import {PrismaClient} from "@prisma/client";
 import {Customer} from "../model/Customer";
 import {Item} from "../model/Item";
+import {uptime} from "node:os";
 
 const prisma =new PrismaClient();
 
@@ -83,29 +84,30 @@ export async function getAllItem(){
         console.log("error getting items from prisma data",err);
     }
 }
-export async function ItemUpdate(name: string, i: Item){
+export async function ItemUpdate(id: number, i: Item){
     try{
         await prisma.item.update({
-            where:{ name : i.name},
+            where:{ id: id},
             data:{
                 name: i.name,
                 quantity: i.quantity,
                 price: i.price
             }
+
         })
     }catch(err){
         console.log("error updating item", err);
     }
 }
 
-export async function ItemDelete(name: string) {
+export async function ItemDelete(id: number) {
     try{
         await prisma.item.delete({
-            where: {name: name}
+            where: {id: id}
         });
-        console.log('item deleted :',name);
+        console.log('item deleted :',id);
     }catch(err){
-        console.log("error deleting customer", err);
+        console.log("error deleting item", err);
     }
 }
 

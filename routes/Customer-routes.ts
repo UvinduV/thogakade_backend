@@ -43,7 +43,7 @@ router.put('/update/:email',async (req,res,next)=>{
 
 })
 
-router.get('/delete/:email',async (req,res,next)=>{
+router.delete('/delete/:email',async (req,res,next)=>{
 
     const email  = req.params.email;
     try{

@@ -1,6 +1,6 @@
 import express from "express";
 import {Item} from "../model/Item";
-import {getAllItem, ItemAdd, ItemUpdate} from "../database/prisma-data-store";
+import {getAllItem, ItemAdd, ItemDelete, ItemUpdate} from "../database/prisma-data-store";
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get('/view',async (req,res,next)=>{
     }
 })
 
-router.get('/update/:name',async (req,res,next)=>{
+router.put('/update/:name',async (req,res,next)=>{
 
     const name: string = req.params.name;
     const item : Item = req.body;
@@ -36,6 +36,16 @@ router.get('/update/:name',async (req,res,next)=>{
         console.log("error updating item", err);
     }
 
+})
+
+router.delete('/delete/:name',async (req,res,next)=>{
+    const name: string  = req.params.name;
+    try{
+        await ItemDelete(name);
+        res.send('Item Deleted');
+    }catch(err){
+        console.log("error deleting item", err);
+    }
 })
 
 export default router;

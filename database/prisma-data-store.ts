@@ -97,3 +97,15 @@ export async function ItemUpdate(name: string, i: Item){
         console.log("error updating item", err);
     }
 }
+
+export async function ItemDelete(name: string) {
+    try{
+        await prisma.item.delete({
+            where: {name: name}
+        });
+        console.log('item deleted :',name);
+    }catch(err){
+        console.log("error deleting customer", err);
+    }
+}
+

@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import {Customer} from "../model/Customer";
+import {Item} from "../model/Item";
 
 const prisma =new PrismaClient();
 
@@ -54,5 +55,31 @@ export async function CustomerDelete(email: string) {
         console.log('Customer deleted :',email);
     }catch(err){
         console.log("error deleting customer", err);
+    }
+}
+
+//// Items ////
+
+export async function ItemAdd(i: Item ){
+    try{
+        const newItem  = await prisma.item.create({
+            data:{
+                id:i.id,
+                name: i.name,
+                quantity: i.quantity,
+                price:i.price
+            }
+
+        })
+        console.log('Item Added :',newItem)
+    }catch(err) {
+        console.log("error adding item", err);
+    }
+}
+export async function getAllItem(){
+    try{
+        return await prisma.item.findMany();
+    }catch(err){
+        console.log("error getting items from prisma data",err);
     }
 }

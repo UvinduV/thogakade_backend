@@ -1,6 +1,6 @@
 import express from "express";
 import {Customer} from "../model/Customer";
-import {CustomerAdd, getAllCustomers} from "../database/prisma-data-store";
+import {CustomerAdd, CustomerDelete, CustomerUpdate, getAllCustomers} from "../database/prisma-data-store";
 
 const router = express.Router();
 
@@ -28,17 +28,32 @@ router.get('/view',async (req,res,next)=>{
 
 })
 
-router.get('/update/:email',async (req,res,next)=>{
+router.put('/update/:email',async (req,res,next)=>{
     const email: string = req.params.email;
     const customer : Customer = req.body;
 
     try{
         await CustomerUpdate(email, customer);
         res.send('Customer Updated');
+        console.log("customer updated");
+
     }catch(err){
         console.log("error updating customer", err);
     }
 
+})
+
+router.get('/delete/:email',async (req,res,next)=>{
+
+    const email  = req.params.email;
+    try{
+        await CustomerDelete(email);
+        res.send('Customer Deleted');
+        console.log("customer updated");
+
+    }catch(err){
+        console.log("error deleting customer", err);
+    }
 })
 
 export default router;

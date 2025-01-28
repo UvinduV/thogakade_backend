@@ -18,5 +18,5 @@ model Customer {
   name  String
   nic   String
   email String @unique
-  phone Int
+  phone String
 }

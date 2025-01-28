@@ -83,3 +83,17 @@ export async function getAllItem(){
         console.log("error getting items from prisma data",err);
     }
 }
+export async function ItemUpdate(name: string, i: Item){
+    try{
+        await prisma.item.update({
+            where:{ name : i.name},
+            data:{
+                name: i.name,
+                quantity: i.quantity,
+                price: i.price
+            }
+        })
+    }catch(err){
+        console.log("error updating item", err);
+    }
+}

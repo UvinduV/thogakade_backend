@@ -1,6 +1,6 @@
 import express from "express";
 import {Item} from "../model/Item";
-import {getAllItem, ItemAdd} from "../database/prisma-data-store";
+import {getAllItem, ItemAdd, ItemUpdate} from "../database/prisma-data-store";
 
 const router = express.Router();
 
@@ -22,6 +22,20 @@ router.get('/view',async (req,res,next)=>{
     }catch(err){
         console.log("error getting items", err);
     }
+})
+
+router.get('/update/:name',async (req,res,next)=>{
+
+    const name: string = req.params.name;
+    const item : Item = req.body;
+
+    try{
+        await ItemUpdate(name, item);
+        res.send('Item Updated');
+    }catch(err){
+        console.log("error updating item", err);
+    }
+
 })
 
 export default router;

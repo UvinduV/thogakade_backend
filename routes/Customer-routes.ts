@@ -1,6 +1,6 @@
 import express from "express";
 import {Customer} from "../model/Customer";
-import {CustomerAdd} from "../database/prisma-data-store";
+import {CustomerAdd, getAllCustomers} from "../database/prisma-data-store";
 
 const router = express.Router();
 
@@ -15,11 +15,29 @@ router.post('/add',async (req,res,next)=>{
         console.log("error adding customer", err);
         res.status(400).send("error adding customer");
     }
-
 })
 
 router.get('/view',async (req,res,next)=>{
-    res.send("view customer");
+
+    try{
+        const customers=  await getAllCustomers();
+        res.json(customers);
+    }catch(err){
+        console.log("error getting customers", err);
+    }
+
+})
+
+router.get('/update/:email',async (req,res,next)=>{
+    const email: string = req.params.email;
+    const customer : Customer = req.body;
+
+    try{
+        await CustomerUpdate(email, customer);
+        res.send('Customer Updated');
+    }catch(err){
+        console.log("error updating customer", err);
+    }
 
 })
 

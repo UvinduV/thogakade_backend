@@ -21,3 +21,28 @@ export async function CustomerAdd(c: Customer ){
     }
 
 }
+
+export async function getAllCustomers(){
+    try{
+        return await prisma.customer.findMany();
+    }catch(err){
+        console.log("error getting customers from prisma data",err);
+    }
+}
+
+export async function CustomerUpdate(email: string, c: Customer){
+    try{
+        await prisma.customer.update({
+            where:{ email : c.email},
+            data:{
+                name: c.name,
+                nic: c.nic,
+                email: c.email,
+                phone: c.phone
+
+            }
+        })
+    }catch(err){
+        console.log("error updating customer", err);
+    }
+}

@@ -1,7 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import {Customer} from "../model/Customer";
 import {Item} from "../model/Item";
-import {uptime} from "node:os";
 
 const prisma =new PrismaClient();
 
@@ -9,7 +8,6 @@ export async function CustomerAdd(c: Customer ){
     try{
         const newCustomer  = await prisma.customer.create({
             data:{
-                id:c.id,
                 name: c.name,
                 nic: c.nic,
                 email: c.email,
@@ -64,11 +62,10 @@ export async function CustomerDelete(email: string) {
 export async function ItemAdd(i: Item ){
     try{
         const newItem  = await prisma.item.create({
-            data:{
-                id:i.id,
+            data: {
                 name: i.name,
-                quantity: i.quantity,
-                price:i.price
+                quantity: typeof i.quantity === "string" ? parseInt(i.quantity, 10) : i.quantity,
+                price: typeof i.price === "string" ? parseInt(i.price, 10) : i.price,
             }
 
         })
@@ -84,10 +81,10 @@ export async function getAllItem(){
         console.log("error getting items from prisma data",err);
     }
 }
-export async function ItemUpdate(id: number, i: Item){
+export async function ItemUpdate(name: string, i: Item){
     try{
         await prisma.item.update({
-            where:{ id: id},
+            where:{ name: name},
             data:{
                 name: i.name,
                 quantity: i.quantity,
@@ -100,12 +97,12 @@ export async function ItemUpdate(id: number, i: Item){
     }
 }
 
-export async function ItemDelete(id: number) {
+export async function ItemDelete(name: string) {
     try{
         await prisma.item.delete({
-            where: {id: id}
+            where: {name: name}
         });
-        console.log('item deleted :',id);
+        console.log('item deleted :',name);
     }catch(err){
         console.log("error deleting item", err);
     }

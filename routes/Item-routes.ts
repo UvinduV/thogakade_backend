@@ -24,13 +24,13 @@ router.get('/view',async (req,res,next)=>{
     }
 })
 
-router.put('/update/:id',async (req,res,next)=>{
+router.put('/update/:name',async (req,res,next)=>{
 
-    const id: number =+ req.params.id;
+    const name: string = req.params.name;
     const item : Item = req.body;
 
     try{
-        await ItemUpdate(id, item);
+        await ItemUpdate(name, item);
         res.send('Item Updated');
     }catch(err){
         console.log("error updating item", err);
@@ -38,10 +38,10 @@ router.put('/update/:id',async (req,res,next)=>{
 
 })
 
-router.delete('/delete/:id',async (req,res,next)=>{
-    const id: number  =+ req.params.id;
+router.delete('/delete/:name',async (req,res,next)=>{
+    const name: string  = req.params.name;
     try{
-        await ItemDelete(id);
+        await ItemDelete(name);
         res.send('Item Deleted');
     }catch(err){
         console.log("error deleting item", err);
